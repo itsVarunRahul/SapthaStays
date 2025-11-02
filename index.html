@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>saptha stays</title>
+  </head>
+  <link rel="stylesheet" href="index.css" />
+  <body>
+    <p>
+      <span class="cursor">&nbsp;</span>
+    </p>
+    <h1>SAPTHA STAYS</h1>
+
+    <section class="slider-container">
+      <div class="slider-images">
+        <div class="slider-img">
+          <img src="images/1.jpg" alt="1" />
+          <h1>farm house</h1>
+          <div class="details">
+            <h2>farm house</h2>
+            <p>outdoor view</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="images/2.jpg" alt="2" />
+          <h1>Rooms</h1>
+          <div class="details">
+            <h2>luxury rooms</h2>
+            <p>special services</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="images/3.jpg" alt="3" />
+          <h1>waiting area</h1>
+          <div class="details">
+            <h2>waiting area</h2>
+            <p>indoors</p>
+          </div>
+        </div>
+        <div class="slider-img active">
+          <img src="images/4.jpg" alt="4" />
+          <h1>Dining</h1>
+          <div class="details">
+            <h2>multicusine</h2>
+            <p>by best cooks</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="images/5v.jpg" alt="5" />
+          <h1>hotel</h1>
+          <div class="details">
+            <h2>outdoor-view</h2>
+            <p>Night-view</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="images/6v.jpg" alt="6" />
+          <h1>Dine</h1>
+          <div class="details">
+            <h2>asthetic dining</h2>
+            <p>special services</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="images/7.jpg" alt="7" />
+          <h1>services</h1>
+          <div class="details">
+            <h2>hospitality</h2>
+            <p>24hr service</p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+    </section>
+    <br />
+    <script src="index.js"></script>
+    <script>
+      jQuery(document).ready(function ($) {
+        $(".slider-img").on("click", function () {
+          $(".slider-img").removeClass("active");
+          $(this).addClass("active");
+        });
+      });
+    </script>
+    <br /><br /><br />
+
+    <div class="form1">
+      <form action="index.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="cardnumber">Card Number:</label>
+        <input
+          type="text"
+          id="cardnumber"
+          name="cardnumber"
+          maxlength="16"
+          minlength="16"
+          required
+        />
+
+        <label for="checkindate">Check-In Date:</label>
+        <input type="date" id="checkindate" name="checkindate" required />
+
+        <label for="checkoutdate">Check-Out Date:</label>
+        <input type="date" id="checkoutdate" name="checkoutdate" required />
+
+        <label for="phonenumber">Phone Number:</label>
+        <input
+          type="text"
+          id="phonenumber"
+          name="phonenumber"
+          value="+91"
+          maxlength="13"
+          minlength="13"
+          required
+        />
+
+        <label for="roomtype">Room Type:</label>
+        <select
+          id="roomtype"
+          name="roomtype"
+          onchange="updateAccommodationLimit()"
+          required
+        >
+          <option value="">Select Room Type</option>
+          <option value="single">Single Room</option>
+          <option value="double">Double Room</option>
+          <option value="suite">Suite</option>
+        </select>
+
+        <label for="accommodation">Number of Accommodations:</label>
+        <input
+          type="number"
+          id="accommodation"
+          name="accommodation"
+          min="1"
+          required
+        />
+
+        <label for="acknowledgment">
+          <input
+            type="checkbox"
+            id="acknowledgment"
+            name="acknowledgment"
+            required
+          />
+          I acknowledge the terms and conditions.
+        </label>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+    <script src="index.js"></script>
+    <script>
+      jQuery(document).ready(function ($) {
+        $(".slider-img").on("click", function () {
+          $(".slider-img").removeClass("active");
+          $(this).addClass("active");
+        });
+      });
+
+      function updateAccommodationLimit() {
+        const roomType = document.getElementById("roomtype").value;
+        const accommodationInput = document.getElementById("accommodation");
+        let maxAccommodation = 1;
+
+        switch (roomType) {
+          case "single":
+            maxAccommodation = 1;
+            break;
+          case "double":
+            maxAccommodation = 2;
+            break;
+          case "suite":
+            maxAccommodation = 4;
+            break;
+          default:
+            maxAccommodation = 1;
+        }
+
+        accommodationInput.setAttribute("max", maxAccommodation);
+        if (parseInt(accommodationInput.value) > maxAccommodation) {
+          accommodationInput.value = maxAccommodation;
+        }
+      }
+
+      function setDateConstraints() {
+        const today = new Date().toISOString().split("T")[0];
+        const checkInDateInput = document.getElementById("checkindate");
+        const checkOutDateInput = document.getElementById("checkoutdate");
+
+        checkInDateInput.setAttribute("min", today);
+
+        checkInDateInput.addEventListener("change", function () {
+          const checkInDate = this.value;
+          checkOutDateInput.setAttribute("min", checkInDate);
+
+          if (
+            checkOutDateInput.value &&
+            new Date(checkOutDateInput.value) < new Date(checkInDate)
+          ) {
+            checkOutDateInput.value = "";
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", setDateConstraints);
+    </script>
+  </body>
+</html>
